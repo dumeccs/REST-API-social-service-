@@ -24,14 +24,46 @@ class CommentController {
         try {
             // const query = req.query;
             // console.log(query)
-            const comment = await Comment.find();
+            const comments = await Comment.find();
 
-            res.status(200).json(comment)
+            res.status(200).json(comments)
         } catch (error) {
             res.status(500).json('Server error') 
         }
     }
 
+    static getOne = async (req,res) => {
+        const {id} = req.params
+        try{
+            const comment = await Comment.findOne({id:id})
+            res.status(200).json(comment)
+        }
+        catch(err){
+            res.status(500).json('Server error')
+        }
+    }
+
+    static update = async (req,res) =>{
+        const {id} = req.params
+        try{
+            const updatedComment = await Comment.findOneAndUpdate({id:id},req.body)
+            res.status(200).json(updatedComment)
+        }
+        catch(err){
+            res.status(500).json('Server error')
+        }
+    }
+
+    static delete = async (req,res) => {
+        const { id } = req.params
+        try{
+            const deletedComment = await Comment.findOneAndDelete({id:id})
+            res.status(200).json('Comment deleted successfully')
+        }
+        catch(err){
+            res.status(500).json('Server error')
+        }
+    }
     // getOne
     // update
     // delete
